@@ -1,0 +1,23 @@
+{
+  "appId": "com.yanitoy.feedbackapp",
+  "productName": "My Website | Yanitoy",
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "build/**/*",
+    "main.js"
+  ],
+  "extraMetadata": {
+    "main": "main.js"
+  },
+  "win": {
+    "target": "nsis",
+    "icon": "favicon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true
+  }
+}

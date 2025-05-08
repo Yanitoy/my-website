@@ -6,38 +6,35 @@ function Feedback() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = {
-      name,
-      email,
-      message
-    };
+    const endpoint = "https://script.google.com/macros/s/AKfycby_0O9W-WNBzi4Zo8ZhP_FcxhawowvYYEpp8mTvQo_VsJYgkvl8OVxUjhKK1HtPKnFQBg/exec";
 
-    const scriptURL = "https://script.google.com/macros/s/AKfycby_0O9W-WNBzi4Zo8ZhP_FcxhawowvYYEpp8mTvQo_VsJYgkvl8OVxUjhKK1HtPKnFQBg/exec"; // <-- GoogleSheets Link
+    setStatus('⏳ Sending...');
 
-    try {
-      const response = await fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.ok) {
-        setStatus("✅ Message sent successfully!");
+    fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify({ name, email, message }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to send");
+        return res.text();
+      })
+      .then(() => {
+        setStatus('✅ Message sent successfully!');
         setName('');
         setEmail('');
         setMessage('');
-      } else {
-        setStatus("❌ Failed to send message.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setStatus("❌ Error occurred while sending.");
-    }
+      })
+      .catch((err) => {
+        console.error("❌ Google Script error:", err);
+        alert("❌ Failed to send message. See console for details.");
+        setStatus('❌ Error occurred while sending.');
+      });
   };
 
   return (
@@ -76,7 +73,12 @@ function Feedback() {
         </div>
         <button type="submit" style={{ padding: '10px 20px' }}>Send</button>
       </form>
-      {status && <p style={{ marginTop: '15px' }}>{status}</p>}
+
+      {status && (
+        <p style={{ marginTop: '15px', fontWeight: 'bold', color: status.includes('✅') ? 'green' : status.includes('❌') ? 'red' : 'black' }}>
+          {status}
+        </p>
+      )}
     </div>
   );
 }
