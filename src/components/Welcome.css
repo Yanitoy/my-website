@@ -1,0 +1,18 @@
+.welcome-container {
+    background-color: #f0f8ff;   /* light blue background */
+    padding: 20px;               /* space inside the box */
+    border-radius: 12px;         /* rounded corners */
+    text-align: center;          /* center the text */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  }
+  
+  .welcome-container h2 {
+    color: #2c3e50;              /* dark blue header */
+    margin-bottom: 10px;
+  }
+  
+  .welcome-container p {
+    font-size: 1.1rem;           /* slightly larger text */
+    color: #555;                 /* medium-dark gray text */
+  }
+  
